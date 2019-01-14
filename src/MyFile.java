@@ -30,12 +30,16 @@ public class MyFile extends JFrame{
         panel2.add(new JButton(new WriteFileAction()));
         panel2.add(new JButton(new SearchFileAction()));
 
-        jbFile.addActionListener(new ActionListener(){//选择文件按钮事件处理
+        jbFile.addActionListener(new ActionListener(){
+            //选择文件按钮事件处理
             public void actionPerformed(ActionEvent event) {
                 JFileChooser fileChooser=new JFileChooser("D:/");
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);//设置文件选择模式,此处为文件和目录均可
-                if (fileChooser.showOpenDialog(MyFile.this)==JFileChooser.APPROVE_OPTION){//弹出文件选择器,并判断是否点击了打开按钮
-                    String fileName=fileChooser.getSelectedFile().getAbsolutePath();//得到选择文件或目录的绝对路径
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                //设置文件选择模式,此处为文件和目录均可
+                if (fileChooser.showOpenDialog(MyFile.this)==JFileChooser.APPROVE_OPTION){
+                    //弹出文件选择器,并判断是否点击了打开按钮
+                    String fileName=fileChooser.getSelectedFile().getAbsolutePath();
+                    //得到选择文件或目录的绝对路径
                     jtfPath.setText(fileName);
                 }
             }
@@ -47,7 +51,7 @@ public class MyFile extends JFrame{
         container1.add(panel2,BorderLayout.SOUTH);
 
 
-        setSize(800,620);
+        setSize(580,400);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -65,12 +69,10 @@ public class MyFile extends JFrame{
                 if (!f.exists()){
                     f.createNewFile();
                     JOptionPane.showMessageDialog(MyFile.this,filename+" 新文件创建成功.");
-
                 }
                 else{
                     JOptionPane.showMessageDialog(MyFile.this,filename+" 文件已存在.");
                 }
-
             }
             catch (Exception ex){
                 ex.printStackTrace();
