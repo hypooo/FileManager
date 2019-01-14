@@ -23,7 +23,8 @@ public class MyFile extends JFrame{
         panel.add(jbFile);
 
         JPanel panel2=new JPanel();
-        panel2.add(new JButton(new CreateFileAction()));  //实例化按钮,并增加到面板2上
+        //实例化按钮,并增加到面板2上
+        panel2.add(new JButton(new CreateFileAction()));
         panel2.add(new JButton(new CreateFolderAction()));
         panel2.add(new JButton(new DeleteFileAction()));
         panel2.add(new JButton(new ReadFileAction()));
