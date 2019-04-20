@@ -3,26 +3,26 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 
-public class MyFile extends JFrame{
+public class MyFile extends JFrame {
 
     private JTextField jtfPath;
     private JTextPane textPane;
     private JScrollPane jsp;
 
-    public MyFile(){
+    private MyFile() {
         super("简单文件管理");
 
-        jtfPath=new JTextField(18);//实例化文件路径输入框
+        jtfPath = new JTextField(18);//实例化文件路径输入框
         textPane = new JTextPane();
         jsp = new JScrollPane(textPane);
-        JButton jbFile=new JButton("浏览");//实例化文件选择按钮
+        JButton jbFile = new JButton("浏览");//实例化文件选择按钮
 
-        JPanel panel=new JPanel();//实例化面板,用于容纳输入框和按钮
+        JPanel panel = new JPanel();//实例化面板,用于容纳输入框和按钮
         panel.add(new JLabel("文件名: "));//增加组件到面板
         panel.add(jtfPath);
         panel.add(jbFile);
 
-        JPanel panel2=new JPanel();
+        JPanel panel2 = new JPanel();
         //实例化按钮,并增加到面板2上
         panel2.add(new JButton(new CreateFileAction()));
         panel2.add(new JButton(new CreateFolderAction()));
@@ -31,28 +31,28 @@ public class MyFile extends JFrame{
         panel2.add(new JButton(new WriteFileAction()));
         panel2.add(new JButton(new SearchFileAction()));
 
-        jbFile.addActionListener(new ActionListener(){
+        jbFile.addActionListener(new ActionListener() {
             //选择文件按钮事件处理
             public void actionPerformed(ActionEvent event) {
-                JFileChooser fileChooser=new JFileChooser("D:/");
+                JFileChooser fileChooser = new JFileChooser("D:/");
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 //设置文件选择模式,此处为文件和目录均可
-                if (fileChooser.showOpenDialog(MyFile.this)==JFileChooser.APPROVE_OPTION){
+                if (fileChooser.showOpenDialog(MyFile.this) == JFileChooser.APPROVE_OPTION) {
                     //弹出文件选择器,并判断是否点击了打开按钮
-                    String fileName=fileChooser.getSelectedFile().getAbsolutePath();
+                    String fileName = fileChooser.getSelectedFile().getAbsolutePath();
                     //得到选择文件或目录的绝对路径
                     jtfPath.setText(fileName);
                 }
             }
         });
 
-        Container container1=getContentPane();
-        container1.add(panel,BorderLayout.NORTH);
-        container1.add(jsp,BorderLayout.CENTER);
-        container1.add(panel2,BorderLayout.SOUTH);
+        Container container1 = getContentPane();
+        container1.add(panel, BorderLayout.NORTH);
+        container1.add(jsp, BorderLayout.CENTER);
+        container1.add(panel2, BorderLayout.SOUTH);
 
 
-        setSize(580,400);
+        setSize(580, 400);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,119 +63,132 @@ public class MyFile extends JFrame{
         public CreateFileAction() {
             super("创建文件");
         }
+
         public void actionPerformed(ActionEvent e) {
-            String filename=jtfPath.getText(); //从输入框得到文件名
-            File f=new File("D:/",filename);
-            try{
-                if (!f.exists()){
+            String filename = jtfPath.getText(); //从输入框得到文件名
+            File f = new File("D:/", filename);
+            try {
+                if (!f.exists()) {
                     f.createNewFile();
-                    JOptionPane.showMessageDialog(MyFile.this,filename+" 新文件创建成功.");
+                    JOptionPane.showMessageDialog(MyFile.this, filename + " 新文件创建成功.");
+                } else {
+                    JOptionPane.showMessageDialog(MyFile.this, filename + " 文件已存在.");
                 }
-                else{
-                    JOptionPane.showMessageDialog(MyFile.this,filename+" 文件已存在.");
-                }
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
+
     /*创建文件夹*/
     class CreateFolderAction extends AbstractAction {
-        public CreateFolderAction() {
+        private CreateFolderAction() {
             super("创建文件夹");
         }
+
         public void actionPerformed(ActionEvent e) {
-            String filename=jtfPath.getText(); //从输入框得到文件名
-            File f=new File("D:/",filename);
-            try{
-                if (!f.exists()){
+            String filename = jtfPath.getText(); //从输入框得到文件名
+            File f = new File("D:/", filename);
+            try {
+                if (!f.exists()) {
                     f.mkdir();
-                    JOptionPane.showMessageDialog(MyFile.this,filename+" 文件夹创建成功.");
+                    JOptionPane.showMessageDialog(MyFile.this, filename + " 文件夹创建成功.");
+                } else {
+                    JOptionPane.showMessageDialog(MyFile.this, filename + " 文件夹已存在.");
                 }
-                else{
-                    JOptionPane.showMessageDialog(MyFile.this,filename+" 文件夹已存在.");
-                }
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
+
     /*读文件*/
-    class ReadFileAction extends AbstractAction{
-        public ReadFileAction(){
+    class ReadFileAction extends AbstractAction {
+        public ReadFileAction() {
             super("读文件");
         }
-        public void actionPerformed(ActionEvent e) {
-            String filename = jtfPath.getText();
-            File f =new File(filename);
-            try {
-                FileInputStream fis = new FileInputStream(f);
-                textPane.read(fis,"t");//desc描述流的对象
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(MyFile.this,"文件读失败");
-            }
-        }
 
-    }
-    /*写文件*/
-    class WriteFileAction extends AbstractAction{
-        public WriteFileAction(){
-            super("写文件");
-        }
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             String filename = jtfPath.getText();
             File f = new File(filename);
-            try{
+            try {
+                FileInputStream fis = new FileInputStream(f);
+                textPane.read(fis, "t");//desc描述流的对象
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(MyFile.this, "文件读失败");
+            }
+        }
+
+    }
+
+    /*写文件*/
+    class WriteFileAction extends AbstractAction {
+        private WriteFileAction() {
+            super("写文件");
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            String filename = jtfPath.getText();
+            File f = new File(filename);
+            try {
                 FileOutputStream fos = new FileOutputStream(f);
                 fos.write(textPane.getText().getBytes());
-                JOptionPane.showMessageDialog(MyFile.this,"文件写完成");
-            }catch(Exception ex){
-                JOptionPane.showMessageDialog(MyFile.this,"文件写失败");
+                JOptionPane.showMessageDialog(MyFile.this, "文件写完成");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(MyFile.this, "文件写失败");
             }
         }
     }
+
     /*删除文件*/
     class DeleteFileAction extends AbstractAction {
-        public DeleteFileAction() {
+        private DeleteFileAction() {
             super("删除");
         }
-        public void actionPerformed(ActionEvent e) {
-            File f=new File(jtfPath.getText());
-            try{
-                f.delete();
-                JOptionPane.showMessageDialog(MyFile.this,f.getName()+" 删除成功.");
 
-            }
-            catch(Exception ex){
-                JOptionPane.showMessageDialog(MyFile.this,f.getName()+" 删除失败.");
+        public void actionPerformed(ActionEvent e) {
+            File f = new File(jtfPath.getText());
+            try {
+                f.delete();
+                JOptionPane.showMessageDialog(MyFile.this, f.getName() + " 删除成功.");
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(MyFile.this, f.getName() + " 删除失败.");
                 ex.printStackTrace();
             }
         }
     }
+
     /*搜索文件*/
-    class SearchFileAction extends AbstractAction{
-        public  SearchFileAction(){ super("文件搜索");}
-        public void actionPerformed(ActionEvent e) {
-            String s1 = jtfPath.getText();
-            File f = new File("D:/");
-            String[] names = f.list();//获取D盘根目录所有文件和路径,并以字符串数组返回
-            try{
-                for(String s2:names){//遍历字符串数组
-                    boolean a = s2.startsWith(s1);
-                    boolean b = (new File(f.getAbsolutePath()+s2)).isFile();//判断是否是文件,
-                    if(a&&b){
-                        JOptionPane.showMessageDialog(MyFile.this,"在D盘搜索到了"+s2);
+    class SearchFileAction extends AbstractAction {
+        private SearchFileAction() {
+            super("文件搜索");
+        }
+
+        private void searchFile(File f) {
+            File[] files = f.listFiles();
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    searchFile(file);
+                } else {
+                    if (file.getName().contains("马可")) {
+//                        System.out.println(file);
+                        JOptionPane.showMessageDialog(MyFile.this, "搜索到了" + file);
                     }
                 }
             }
-            catch(Exception ex){
-                ex.printStackTrace();
-            }
+
+
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            String s = jtfPath.getText();
+            File f = new File("C:\\Users\\HYPO\\Pictures");
+            searchFile(f);
         }
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         new MyFile();
     }
 }
