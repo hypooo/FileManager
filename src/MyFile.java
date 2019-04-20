@@ -165,26 +165,26 @@ public class MyFile extends JFrame {
             super("文件搜索");
         }
 
-        private void searchFile(File f) {
+        private void searchFile(File f, String s) {
             File[] files = f.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
-                    searchFile(file);
+                    searchFile(file, s);
                 } else {
-                    if (file.getName().contains("马可")) {
-//                        System.out.println(file);
+                    if (file.getName().contains(s)) {
                         JOptionPane.showMessageDialog(MyFile.this, "搜索到了" + file);
+                    } else {
+                        JOptionPane.showMessageDialog(MyFile.this, "没有找到相关文件");
+                        return;
                     }
                 }
             }
-
-
         }
 
         public void actionPerformed(ActionEvent e) {
             String s = jtfPath.getText();
             File f = new File("C:\\Users\\HYPO\\Pictures");
-            searchFile(f);
+            searchFile(f, s);
         }
     }
 
