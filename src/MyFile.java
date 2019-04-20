@@ -165,6 +165,7 @@ public class MyFile extends JFrame {
             super("文件搜索");
         }
 
+        /*递归搜索*/
         private void searchFile(File f, String s) {
             File[] files = f.listFiles();
             for (File file : files) {
@@ -180,12 +181,11 @@ public class MyFile extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             String s = jtfPath.getText();
-            if (s.equals("")){
-                JOptionPane.showMessageDialog(MyFile.this,"请输入相关内容");
-            }
-            else {
-            File f = new File("C:\\Users\\HYPO\\Pictures");
-            searchFile(f, s);
+            if (s.equals("")) {
+                JOptionPane.showMessageDialog(MyFile.this, "请输入相关内容");
+            } else {
+                File f = new File("C:\\Users\\HYPO\\Pictures");
+                searchFile(f, s);
             }
         }
     }
