@@ -173,9 +173,6 @@ public class MyFile extends JFrame {
                 } else {
                     if (file.getName().contains(s)) {
                         JOptionPane.showMessageDialog(MyFile.this, "搜索到了" + file);
-                    } else {
-                        JOptionPane.showMessageDialog(MyFile.this, "没有找到相关文件");
-                        return;
                     }
                 }
             }
@@ -183,8 +180,13 @@ public class MyFile extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             String s = jtfPath.getText();
+            if (s.equals("")){
+                JOptionPane.showMessageDialog(MyFile.this,"请输入相关内容");
+            }
+            else {
             File f = new File("C:\\Users\\HYPO\\Pictures");
             searchFile(f, s);
+            }
         }
     }
 
